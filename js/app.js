@@ -22,25 +22,61 @@ async function afficherActivites() {
 
     let activitesCards = document.getElementById("activites")
 
-    const div1=document.createElement("div")
-    div1.className="sm:col-6 mb-3 sm:mb-0"
-    const div2=document.createElement("div")
-    div2.className="card"
-    const div3=document.createElement("div")
-    div3.className="card-body"
-    const div4=document.createElement("h4")
-    div4.className="card-title"
 
-    activitesCards.appendChild(div1)
-    div1.appendChild(div2)
-    div2.appendChild(div3)
-    div3.appendChild(div4)
     
 
     activites.forEach(activite => {
 
+    activitesCards.appendChild(activiteCard(activite))
 
-    activitesCards.innerHTML+=`<div class="sm:col-6 mb-3 sm:mb-0">
+
+    });
+
+    
+function activiteCard(activite){
+    const div1=document.createElement("div")
+    div1.setAttribute("class","sm:col-6 mb-3 sm:mb-0")
+    const div2=document.createElement("div")
+    div2.setAttribute("class","card")
+    const divheader=document.createElement("div")
+    divheader.setAttribute("class","card-header")
+    const div3=document.createElement("div")
+    div3.setAttribute("class","card-body")
+    const div4=document.createElement("h4")
+    div4.setAttribute("class","card-title")
+    const div5=document.createElement("div")
+    div5.setAttribute("class","card-text")
+    const div7=document.createElement("p")
+    const div8=document.createElement("p")
+    const div9=document.createElement("p")
+    const div10=document.createElement("div")
+    div10.setAttribute("class","d-flex justify-content-end gap-3")
+    const div11=document.createElement("a")
+    div11.setAttribute("class","btn-solid theme-primary")
+    const div12=document.createElement("a")
+    div12.setAttribute("class","btn-solid theme-danger")
+
+
+    divheader.textContent=`Objectif : ${activite.objectifs}`
+    div4.textContent=`${activite.titre}`
+    
+    div7.textContent=`Thème : ${activite.theme}`
+    div8.textContent=`Durée : ${activite.duree} min`
+    div9.textContent=`Auteur : ${activite.auteur}`
+    div11.textContent="Modifier"
+    div12.textContent="Supprimer"
+
+    div1.appendChild(div2)
+    div2.append(divheader,div3)
+    div3.append(div4,div5)
+    div5.append(div7,div8,div9,div10)
+    div10.append(div11,div12)
+
+    return div1
+}
+
+
+{/* <div class="sm:col-6 mb-3 sm:mb-0">
             <div class="card">
             <div class="card-body">
                 <h4 class="card-title">${activite.titre}</h4>
@@ -52,10 +88,7 @@ async function afficherActivites() {
 
             </div>
             </div>
-        </div>`
-    });
-
-
+        </div> */}
     
 
     console.log(activites)
@@ -70,14 +103,14 @@ afficherActivites();
 
 
 
-form = document.getElementById("username")
+formUser = document.getElementById("username")
 
 function enregistrerUser(){
-    form.addEventListener("submit",(e)=>{
+    formUser.addEventListener("submit",(e)=>{
     e.preventDefault()
     localStorage.clear()
     
-    window.localStorage.setItem("username", form.user.value)
+    window.localStorage.setItem("username", formUser.user.value)
     
 })
 }
