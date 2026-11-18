@@ -16,26 +16,71 @@ const chargerActivites = async () => {
   }
 };
 
+let activitesCards = document.getElementById("activites")
 
 async function afficherActivites() {
-    activites = await chargerActivites();
-
-    let activitesCards = document.getElementById("activites")
-
-
-    
+    let activites = await chargerActivites();
 
     activites.forEach(activite => {
 
     activitesCards.appendChild(activiteCard(activite))
-
+    
 
     });
 
+
+    console.log(activites)
+}
+
+
+
+function eventSupprimer(){
+
+
+  activitesCards.addEventListener('click',(event)=>{
+
+    let id = event.target.dataset.supprimer
+    if (!id){
+      console.log("vous n'avez pas cliquer sur supprimer")
+      return
+    }
+    supprimerActivite(id)
     
+
+    let thisActivite = document.getElementById(id)
+
+    activitesCards.removeChild(thisActivite)
+
+
+  })
+
+}
+
+
+afficherActivites();
+
+eventSupprimer()
+
+async function supprimerActivite(id){
+  try{
+  const response = await api.delete('/activites/'+id)
+
+  return response;
+  } catch (error) {
+    console.error(error.response?.data?.message ?? "API inaccessible");
+    return [];
+  }
+}
+
+
+
+
+
+
 function activiteCard(activite){
     const div1=document.createElement("div")
     div1.setAttribute("class","sm:col-6 mb-3 sm:mb-0")
+    div1.setAttribute("id",activite.id)
     const div2=document.createElement("div")
     div2.setAttribute("class","card")
     const divheader=document.createElement("div")
@@ -53,8 +98,12 @@ function activiteCard(activite){
     div10.setAttribute("class","d-flex justify-content-end gap-3")
     const div11=document.createElement("a")
     div11.setAttribute("class","btn-solid theme-primary")
+    div11.setAttribute("data-modifier",`${activite.id}`)
     const div12=document.createElement("a")
-    div12.setAttribute("class","btn-solid theme-danger")
+    div12.setAttribute("class","btn-solid theme-danger btn-supprimer")
+    div12.setAttribute("data-supprimer",`${activite.id}`)
+    
+
 
 
     divheader.textContent=`Objectif : ${activite.objectifs}`
@@ -62,7 +111,7 @@ function activiteCard(activite){
     
     div7.textContent=`Thème : ${activite.theme}`
     div8.textContent=`Durée : ${activite.duree} min`
-    div9.textContent=`Auteur : ${activite.auteur}`
+    div9.textContent=`Auteur : ${activite.auteur} | id : ${activite.id}`
     div11.textContent="Modifier"
     div12.textContent="Supprimer"
 
@@ -76,32 +125,34 @@ function activiteCard(activite){
 }
 
 
-{/* <div class="sm:col-6 mb-3 sm:mb-0">
-            <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">${activite.titre}</h4>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <div class="d-flex justify-content-end gap-3">
-                    <a href="#" class="btn-solid theme-primary">Modifier</a>
-                    <a href="#" class="btn-solid theme-danger">Supprimer</a>
-                </div>
 
-            </div>
-            </div>
-        </div> */}
     
 
-    console.log(activites)
+async function ajouterActivite(event){
+
+  let activite ={    titre: event.target.titre.value,
+    theme: "jeu",
+    objectifs: "sndnsdhsde",
+    duree: 20,
+    description: "sdhjsdjcdifldjsidlfjcnsbxhssdh.",
+    auteur: "tachfine rachglou"}
+
+  alert("ajout ok")
+  let addActivite = await api.post("/activites", activite)
+  activitesCards.appendChild(activiteCard(activite))
+
+  return addActivite
 }
 
+// ajouterActivite()
 
-// const ajouterActivites = async () => {
-
-// }
-
-afficherActivites();
+let formAjoutActivite=document.getElementById("formAjoutActivite")
 
 
+formAjoutActivite.addEventListener('submit',(event)=>{
+  event.preventDefault()
+  ajouterActivite(event)
+})
 
 formUser = document.getElementById("username")
 
