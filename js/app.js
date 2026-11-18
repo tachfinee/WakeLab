@@ -130,12 +130,13 @@ function activiteCard(activite){
 
 async function ajouterActivite(event){
 
-  let activite ={    titre: event.target.titre.value,
-    theme: "jeu",
-    objectifs: "sndnsdhsde",
-    duree: 20,
-    description: "sdhjsdjcdifldjsidlfjcnsbxhssdh.",
-    auteur: "tachfine rachglou"}
+  let activite ={
+    titre: event.currentTarget.titre.value,
+    theme: event.currentTarget.theme.value,
+    objectifs: event.currentTarget.objectifs.value,
+    duree: Number(event.currentTarget.duree.value),
+    description: event.currentTarget.description.value,
+    auteur: event.currentTarget.auteur.value}
 
   alert("ajout ok")
   let addActivite = await api.post("/activites", activite)
@@ -151,7 +152,10 @@ let formAjoutActivite=document.getElementById("formAjoutActivite")
 
 formAjoutActivite.addEventListener('submit',(event)=>{
   event.preventDefault()
+  
+  
   ajouterActivite(event)
+  
 })
 
 formUser = document.getElementById("username")

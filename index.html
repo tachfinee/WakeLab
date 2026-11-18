@@ -88,42 +88,43 @@
     
     </div>
 
-<div class="sm:col-12" id="formAjoutActivite">
+<div class="sm:col-12" >
     <div class="card">
       <div class="card-body">
 
         <h4 class="card-title">Ajouter une activité</h4>
-        <form class="row g-3">
+        <form class="row g-3" id="formAjoutActivite">
   <div class="col-md-6">
     <label for="titre" class="form-label">Titre</label>
-    <input type="text" class="form-control" id="titre">
+    <input type="text" class="form-control" name="titre">
   </div>
   <div class="col-md-6">
     <label for="theme" class="form-label">Thème</label>
-    <select class="form-control form-control-sm" id="theme">
+    <select class="form-control form-control-sm" name="theme">
         <option>Sélectionner un thème</option>
-        <option value="jeu">jeu</option>
-        <option value="two">Two</option>
-        <option value="three">Three</option>
+        <option value="jeu">Jeu</option>
+        <option value="apprentissage">Apprentissage</option>
+        <option value="exercice">Exercice</option>
+        <option value="autre">Autre</option>
     </select>
   </div>
   <div class="col-12">
     <label for="objectifs" class="form-label">Objectifs</label>
-    <input type="text" class="form-control" id="objectifs">
+    <input type="text" class="form-control" name="objectifs">
   </div>
   <div class="col-12">
     <label for="duree" class="form-label">Durée</label>
-    <input type="text" class="form-control" id="duree">
+    <input type="text" class="form-control" name="duree">
   </div>
   <div class="col-md-6">
     <label for="description" class="form-label">Description</label>
-    <input type="text" class="form-control" id="description">
+    <input type="text" class="form-control" name="description">
   </div>
 
 
   <div class="col-md-2">
     <label for="auteur" class="form-label">Auteur</label>
-    <input type="text" class="form-control" id="auteur">
+    <input type="text" class="form-control" name="auteur">
   </div>
   
   <div class="col-12">
