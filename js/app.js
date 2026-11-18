@@ -136,7 +136,9 @@ async function ajouterActivite(event){
     objectifs: event.currentTarget.objectifs.value,
     duree: Number(event.currentTarget.duree.value),
     description: event.currentTarget.description.value,
-    auteur: event.currentTarget.auteur.value}
+    auteur: window.localStorage.getItem("username")
+  
+  }
 
   alert("ajout ok")
   let addActivite = await api.post("/activites", activite)
