@@ -88,6 +88,9 @@
       <div class="card-body">
 
         <h4 class="card-title">Ajouter une activité</h4>
+          <div class="mb-2 bg-danger fg-white" id="errDiv">
+            
+          </div>
         <form class="row g-3" id="formAjoutActivite">
   <div class="col-md-6">
     <label for="titre" class="form-label">Titre</label>
@@ -96,7 +99,7 @@
   <div class="col-md-6">
     <label for="theme" class="form-label">Thème</label>
     <select class="form-control form-control-sm" name="theme">
-        <option>Sélectionner un thème</option>
+        <option value="notSelected">Sélectionner un thème</option>
         <option value="jeu">Jeu</option>
         <option value="apprentissage">Apprentissage</option>
         <option value="exercice">Exercice</option>

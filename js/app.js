@@ -17,6 +17,7 @@ const chargerActivites = async () => {
 };
 
 let activitesCards = document.getElementById("activites")
+let errDiv=document.getElementById("errDiv")
 
 async function afficherActivites() {
     let activites = await chargerActivites();
@@ -80,13 +81,12 @@ async function supprimerActivite(id){
 
 function eventModifier(form,id){
   form.addEventListener('submit',(event)=>{
-      // let id = event.target.dataset.modifier
-      // if (!id){
-      //   return
-      // }
+
       event.preventDefault()
-      alert("modifier ok")
+      
+      validation(event,"errDivModifier",id)
       modifierActivite(event,id)
+      alert("acitivté modifié avec succes")
 
       
   })
@@ -99,22 +99,22 @@ function modiferActiviteFrontend(activite){
 
       let actModifier = document.getElementById(`dialog${activite.id}`)
 
-      //fermeture du modal
+      
       // actModifier.close()
       activitesCards.removeChild(act)
 
-      console.log("dialog fermé")
+      
 
       activitesCards.removeChild(actModifier)
 
-      console.log("dialog supprimé")
+      
       activitesCards.prepend(activiteCard(activite))
       let nouveauModal = modifierActiviteCard(activite)
       activitesCards.prepend(nouveauModal)
-      console.log("dialog ajouté")
+      
 
 
-      //reouvrire le modal
+      
       // nouveauModal.show()
 }
 
@@ -204,6 +204,10 @@ function modifierActiviteCard(activite){
   div1.setAttribute("class","dialog")
   div1.setAttribute("id",`dialog${activite.id}`)
   // div1.textContent=`id = ${activite.id}`
+
+  let errDivModifier = document.createElement("div")
+  errDivModifier.setAttribute("class","mb-2 bg-danger fg-white")
+
   const form = document.createElement("form")
   form.setAttribute("class","row g-3 m-5")
   form.setAttribute("id",`formModifierActivite${activite.id}`)
@@ -302,7 +306,7 @@ function modifierActiviteCard(activite){
 })
   div23.textContent="Fermer"
 
-  div1.append(form,div23)
+  div1.append(form,div23,errDivModifier)
   form.append(div2,div5,div12,div15,div18,div21)
   div2.append(div3,div4)
   div5.append(div6,select)
@@ -330,26 +334,19 @@ async function ajouterActivite(event){
   
   }
 
-  alert("ajout ok")
+  alert("activité ajouté avec succes")
   let addActivite = await api.post("/activites", activite)
 
-  // activitesCards.remove()
+  
 
   activitesCards.prepend(activiteCard(addActivite.data))
-  // afficherActivites()
+  activitesCards.appendChild(modifierActiviteCard(addActivite.data))
+  
 
   return addActivite
 }
 
 
-function activiteCardArray(){
-
-
-}
-
-function removeElements(){
-
-}
 
 let formAjoutActivite=document.getElementById("formAjoutActivite")
 
@@ -357,12 +354,96 @@ let formAjoutActivite=document.getElementById("formAjoutActivite")
 formAjoutActivite.addEventListener('submit',(event)=>{
   event.preventDefault()
   
-  
+  validation(event,"errDiv")
   ajouterActivite(event)
   
 })
 
+function validation(event,div,id=0){
+    
+    
 
+    try{
+    isNotEmpty(event,"titre")
+    themeSelected(event)
+    isNotEmpty(event,"objectifs")
+    isNotEmpty(event,"duree")
+    dureeValid(event)
+    isNotEmpty(event,"description")
+    descriptionValid(event)
+    if(div == "errDiv"){
+      errDiv.textContent=""
+    }
+    if(div == "errDivModifier"){
+    }
+    }catch(error){
+
+    if(div == "errDiv"){
+      errDiv.textContent=error.message
+    }
+    if(div == "errDivModifier"){
+      alert(error.message)
+    }
+
+    // formAjoutActivite.prepend(errDiv)
+    // alert(error.message)
+
+  }
+  
+
+}
+
+function isNotEmpty(event,str){
+
+  if (str == "titre"){
+    if ( event.currentTarget.titre.value == ""){
+      throw new Error("Le champ "+str +" est vide")
+    }
+  }
+  if (str == "objectifs"){
+    if ( event.currentTarget.objectifs.value == ""){
+      throw new Error("Le champ "+str +" est vide")
+    }
+  }
+  if (str == "duree"){
+    if ( event.currentTarget.duree.value == ""){
+      throw new Error("Le champ "+str +" est vide")
+    }
+  }
+  if (str == "description"){
+    if ( event.currentTarget.description.value == ""){
+      throw new Error("Le champ "+str +" est vide")
+    }
+  }
+
+
+}
+
+function themeSelected(event){
+  if (event.currentTarget.theme.value == "notSelected"){
+    throw new Error("Veuillez selectionner un thème")
+  }
+  
+}
+
+function dureeValid(event){
+  if (Number(event.currentTarget.duree.value) > 20 || Number(event.currentTarget.duree.value) < 10){
+    throw Error("La durée doit être un entier compris entre 10 et 20.")
+  }
+}
+
+function descriptionValid(event){
+  if (event.currentTarget.description.value.length < 20 ||  event.currentTarget.description.value.length > 1000){
+    throw Error("La description doit contenir entre 20 et 1 000 caractères.")
+  }
+}
+
+                // titre: event.currentTarget.titre.value,
+                // theme: event.currentTarget.theme.value,
+                // objectifs: event.currentTarget.objectifs.value,
+                // duree: Number(event.currentTarget.duree.value),
+                // description: event.currentTarget.description.value,
+                // auteur: window.localStorage.getItem("username")
 
 
 formUser = document.getElementById("username")
