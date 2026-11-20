@@ -175,7 +175,7 @@ function activiteCard(activite){
 
 
 
-    divheader.textContent=`Objectif : ${activite.objectifs}`
+    divheader.textContent=`Objectif : ${objectifs(activite.objectifs)}`
     div4.textContent=`${activite.titre}`
     
     div7.textContent=`Thème : ${activite.theme}`
@@ -196,6 +196,12 @@ function activiteCard(activite){
     return div1
 }
 
+function objectifs(objectif){
+  if (objectif == null){
+    return ""
+  }
+  return objectif
+}
 
 
 function modifierActiviteCard(activite){
@@ -356,17 +362,21 @@ formAjoutActivite.addEventListener('submit',(event)=>{
   
   validation(event,"errDiv")
   ajouterActivite(event)
+  // if(validation(event,"errDiv")){
+  //     ajouterActivite(event)
+
+  // }
   
 })
 
-function validation(event,div,id=0){
+function validation(event,div){
     
     
 
     try{
     isNotEmpty(event,"titre")
+    titreValid(event)
     themeSelected(event)
-    isNotEmpty(event,"objectifs")
     isNotEmpty(event,"duree")
     dureeValid(event)
     isNotEmpty(event,"description")
@@ -421,7 +431,7 @@ function isNotEmpty(event,str){
 
 function themeSelected(event){
   if (event.currentTarget.theme.value == "notSelected"){
-    throw new Error("Veuillez selectionner un thème")
+    throw new Error("Veuillez selectionner un thème.")
   }
   
 }
@@ -435,6 +445,11 @@ function dureeValid(event){
 function descriptionValid(event){
   if (event.currentTarget.description.value.length < 20 ||  event.currentTarget.description.value.length > 1000){
     throw Error("La description doit contenir entre 20 et 1 000 caractères.")
+  }
+}
+function titreValid(event){
+    if (event.currentTarget.titre.value.length < 5 ||  event.currentTarget.titre.value.length > 100){
+    throw Error("Le titre doit contenir entre 5 et 100 caractères.")
   }
 }
 
